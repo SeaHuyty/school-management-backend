@@ -75,7 +75,7 @@ export const registerTeacher = async (req, res) => {
         if (query) {
             return res.status(409).json({ success: false, message: 'Teacher already exists' });
         }
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
         const newTeacher = await db.Teacher.create({
             name: name,
             department: department,
@@ -132,10 +132,10 @@ export const registerTeacher = async (req, res) => {
  *         description: Server error
  */
 export const loginTeacher = async (req, res) => {
-    const { email, password, name } = req.body;
+    const { email, password } = req.body;
     if (!email || !password) {
         return res.status(400).json({ success: false, message: 'Missing required fields' });
-    } 
+    }
     try {
         const teacher = await db.Teacher.findOne({
             where: { email: email},
@@ -143,12 +143,12 @@ export const loginTeacher = async (req, res) => {
         })
 
         if (!teacher) {
-            return res.status(401).json({ success: false, message: 'Password or email already exist' });
+            return res.status(401).json({ success: false, message: 'Invalid Credentials' });
         }
 
         const isMatch = await bcrypt.compare(password, teacher.password_hash);
         if (!isMatch) {
-            return res.status(401).json({ success: false, message: 'Invalid Password' });
+            return res.status(401).json({ success: false, message: 'Invalid Credentials' });
         }
 
         const payload = { 
@@ -165,7 +165,6 @@ export const loginTeacher = async (req, res) => {
     } catch (err) {
         return res.status(500).json({ success: false, message: err.message });
     }
-    
 }
 
 /**

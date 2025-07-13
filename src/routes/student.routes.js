@@ -8,15 +8,16 @@ import {
     // registerStudent,
     // loginStudent
 } from '../controllers/student.controller.js';
+import validation from '../middleware/validation.js';
 
 const router = express.Router();
+
+router.use(validation);
 
 router.post('/', createStudent);
 router.get('/', getAllStudents);
 router.get('/:id', getStudentById);
 router.put('/:id', updateStudent);
 router.delete('/:id', deleteStudent);
-// router.post('/register', registerStudent);
-// router.post('/login', loginStudent);
 
 export default router;

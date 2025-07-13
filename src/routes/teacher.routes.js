@@ -9,7 +9,6 @@ import {
     loginTeacher
 } from '../controllers/teacher.controller.js';
 import validation from '../middleware/validation.js';
-import { ro } from '@faker-js/faker';
 const router = express.Router();
 
 router.post('/register', registerTeacher);
@@ -26,6 +25,5 @@ router.get('/', getAllTeachers);
 router.get('/:id', getTeacherById);
 router.put('/:id', updateTeacher);
 router.delete('/:id', deleteTeacher);
-
 
 export default router;

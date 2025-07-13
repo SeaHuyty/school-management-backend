@@ -6,8 +6,11 @@ import {
     updateCourse,
     deleteCourse
 } from '../controllers/course.controller.js';
+import validation from '../middleware/validation.js';
 
 const router = express.Router();
+
+router.use(validation);
 
 router.post('/', createCourse);
 router.get('/', getAllCourses);
